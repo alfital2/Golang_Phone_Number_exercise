@@ -3,7 +3,7 @@ package phonenumber
 import (
 	"errors"
 	"fmt"
-	"unicode"
+	"regexp"
 )
 
 func Number(s string) (string, error) {
@@ -59,21 +59,15 @@ func validateNumLen(num string) bool {
 }
 
 func parseNumber(s string) (string, error) {
-	//numbers at each cell of the slice will be non-negative values between 0-9, therefore use unit8
-	num_slice := make([]uint8, 0)
-	for _, c := range s {
-		// check if the current char is a digit
-		if unicode.IsDigit(c) {
-			num_slice = append(num_slice, uint8(c))
-		}
-		// if at some point the length of the array exeeded the allowed length
-		//stop iterating over the string to save run time
-		if len(num_slice) > MAX_DIGITS {
-			return "Error", errors.New(ERR_MAX_DIGITS_EXCEEDED)
-		}
+	reg, err := regexp.Compile("[^0-9]+")
+	if err != nil {
+		return "ERROR", errors.New("error creating regex")
 	}
-	numAsString := string(num_slice)
-	return numAsString, nil
+	processedString := reg.ReplaceAllString(s, "")
+	if len(processedString) > MAX_DIGITS {
+		return "", errors.New(ERR_MAX_DIGITS_EXCEEDED)
+	}
+	return processedString, nil
 }
 
 //extracts the area code part from the number
