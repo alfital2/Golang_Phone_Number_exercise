@@ -61,7 +61,7 @@ func validateNumLen(num string) bool {
 func parseNumber(s string) (string, error) {
 	reg, err := regexp.Compile("[^0-9]+")
 	if err != nil {
-		return "ERROR", errors.New("error creating regex")
+		return "ERROR", errors.New(ERR_REGEX)
 	}
 	processedString := reg.ReplaceAllString(s, "")
 	if len(processedString) > MAX_DIGITS {
