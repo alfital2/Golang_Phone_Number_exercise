@@ -17,14 +17,6 @@ var numberTests = []struct {
 		formatted:   "(223) 456-7890",
 	},
 	{
-		description: "new TEST FOR NOW the number",
-		input:       "(223) 456-7890",
-		number:      "2234567890",
-		areaCode:    "223",
-		expectErr:   true,
-		formatted:   "(223) 456-7890",
-	},
-	{
 		description: "cleans numbers with dots",
 		input:       "223.456.7890",
 		number:      "2234567890",
